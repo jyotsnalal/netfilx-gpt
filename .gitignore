@@ -24,9 +24,5 @@ dist-ssr
 *.sw?
 <<<<<<< HEAD
 =======
-node_modules
-.env
-.firebase
-build
-dist
+
 >>>>>>> 5781ccb (validation && redux && auth)
