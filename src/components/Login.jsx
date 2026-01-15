@@ -7,15 +7,14 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { USER_AVATAR } from "../utils/constant";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const email = useRef(null);
@@ -36,24 +35,20 @@ const Login = () => {
         .then(({ user }) => {
           return updateProfile(user, {
             displayName: name.current.value,
-            photoURL: "https://i.imgur.com/6VBx3io.png",
+            photoURL: USER_AVATAR,
           });
         })
         .then(() => {
           const { uid, email, displayName, photoURL } = auth.currentUser;
           dispatch(addUser({ uid, email, displayName, photoURL }));
-          navigate("/browse");
         })
-        .catch((error) => {
-          setErrorMessage(error.message);
-        });
+        .catch((error) => {});
     } else {
       // SIGN IN
       signInWithEmailAndPassword(auth, emailValue, passwordValue)
         .then(({ user }) => {
           const { uid, email, displayName, photoURL } = user;
           dispatch(addUser({ uid, email, displayName, photoURL }));
-          navigate("/browse");
         })
         .catch((error) => {
           setErrorMessage(error.message);
@@ -109,9 +104,7 @@ const Login = () => {
             ref={password}
           />
 
-          <p className="text-red-500 font-bold text-sm py-2">
-            {errorMessage}
-          </p>
+          <p className="text-red-500 font-bold text-sm py-2">{errorMessage}</p>
 
           <button
             className="p-3 my-5 bg-red-700 w-full rounded-lg"

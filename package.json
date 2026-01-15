@@ -10,42 +10,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@tailwindcss/vite": "^4.1.5",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
-=======
     "@reduxjs/toolkit": "^2.11.2",
-    "@tailwindcss/vite": "^4.1.5",
-    "firebase": "^12.6.0",
+    "firebase": "^12.7.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-redux": "^9.2.0"
->>>>>>> 5781ccb (validation && redux && auth)
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
-<<<<<<< HEAD
-    "autoprefixer": "^10.4.21",
-=======
-    "autoprefixer": "^10.4.22",
->>>>>>> 5781ccb (validation && redux && auth)
+    "autoprefixer": "^10.4.23",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
-<<<<<<< HEAD
-    "postcss": "^8.5.3",
-    "react-router-dom": "^7.7.1",
-    "tailwindcss": "^3.4.17",
-=======
     "postcss": "^8.5.6",
     "react-router-dom": "^7.7.1",
-    "tailwindcss": "^3.4.18",
->>>>>>> 5781ccb (validation && redux && auth)
+    "tailwindcss": "^3.4.19",
     "vite": "^6.3.5"
   }
 }

@@ -30,6 +30,24 @@ features:
   -- firebase setup
   -- Deploying our app to production
   --create signup user account in firebase
+  --- implement sign in user account
+  ---implement sign in user api
+  --- created redux store with userslice
+  --- implemented sign out
+  ---update profile
+  ---bug fix: sign up user displayname and profile pic update
+  ---bugfix: if the user is not loggd in redirect/browse to sign up page
+  --- unsubscribe to the onAuthStateChanged callback
+  ---added hardcoded value to constants file
+ --- register tmdb api and create an app and get access token
+ --- get data from tmdb now playing movies list API
+ --- Custom hook for now plaaying movies
+ ---create movieSlice
+ ---udate store with movies data
+ -- \fetch data for trailer video and update store with trailer video data
+ --- embedded the youtube video and make it autoplay and mute
+ -- applied tailwind css
+
 
   #feature
   -login/Signup
