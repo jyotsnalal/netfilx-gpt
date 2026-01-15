@@ -2,14 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 #root {
   width: 100vw !important;
-  overflow: hidden;
-}
-* {
-  max-width: unset !important;
 }
 
 iframe {
@@ -17,6 +11,40 @@ iframe {
   transform-origin: center center;
 }
 
-html, body {
-  overflow: hidden;
+html,
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+body {
+  overflow-x: hidden;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+.-mt-20 {
+  margin-top: -12rem !important;
 }

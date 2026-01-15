@@ -1,6 +1,6 @@
 export const LOGO="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production_2025-07-24/consent/87b6a5c0-0104-4e96-a291-092c11350111/019808e2-d1e7-7c0f-ad43-c485b7d9a221/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
 
-export const USER_AVATAR="https://i.imgur.com/6VBx3io.png"
+export const USER_AVATAR="https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg"
 
 export const API_OPTIONS= {
   method: 'GET',
@@ -9,3 +9,5 @@ export const API_OPTIONS= {
     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTIxY2Q5NDY0ZmM4ZjFlNWU5ODc2YjEwMzBkZTU1MyIsIm5iZiI6MTc2NzQ2MDUxNi4xNjk5OTk4LCJzdWIiOiI2OTU5NGVhNDRiYTdjZjUwYmJlNDExMTIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.dKhRukPt64c1wbdNr6WK0p2UAx2IKbI2bcs5oWHFouY'
   }
 };
+
+export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500";

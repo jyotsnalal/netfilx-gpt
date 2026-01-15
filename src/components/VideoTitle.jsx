@@ -3,7 +3,7 @@ import React from "react";
 const VideoTitle = ({ title, overview }) => {
   return (
     <div className="text-white space-y-3">
-      <h1 className="text-4xl font-bold drop-shadow-lg">
+      <h1 className="text-4xl font-bold drop-shadow-lg ">
         {title}
       </h1>
 

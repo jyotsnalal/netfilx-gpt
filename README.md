@@ -47,6 +47,7 @@ features:
  -- \fetch data for trailer video and update store with trailer video data
  --- embedded the youtube video and make it autoplay and mute
  -- applied tailwind css
+ --build secondary component
 
 
   #feature
