@@ -1,18 +1,26 @@
-import { useEffect } from "react";
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from "../utils/firebase";
+import { useSelector } from "react-redux";
 import { IMG_CDN_URL } from "../utils/constant";
 
 const MovieDetailsModal = ({ movie, onClose }) => {
+  const user = useSelector((store) => store.user);
+
   if (!movie) return null;
 
-  // ESC key close
-  useEffect(() => {
-    const handleEsc = (e) => {
-      if (e.key === "Escape") onClose();
-    };
+  const handleRemoveFromWatchlist = async () => {
+    if (!user) return;
 
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
+    try {
+      await deleteDoc(
+        doc(db, "watchlists", `${user.uid}_${movie.id}`)
+      );
+      alert("Removed from Watchlist");
+      onClose();
+    } catch (err) {
+      console.error("Remove failed", err);
+    }
+  };
 
   return (
     <div
@@ -20,34 +28,44 @@ const MovieDetailsModal = ({ movie, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="bg-zinc-900 text-white rounded-xl max-w-lg w-full p-6 relative animate-fadeIn"
+        className="bg-zinc-900 text-white rounded-xl max-w-lg w-full overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-4 text-xl font-bold hover:text-red-500"
-        >
-          ✕
-        </button>
-
         {/* Backdrop Image */}
         {movie.backdrop_path && (
           <img
             src={IMG_CDN_URL + movie.backdrop_path}
             alt={movie.title}
-            className="w-full h-44 object-cover rounded-md mb-4"
+            className="w-full h-56 object-cover"
           />
         )}
 
-        <h2 className="text-2xl font-bold mb-3">{movie.title}</h2>
+        <div className="p-5 relative">
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-4 text-xl font-bold"
+          >
+            ✕
+          </button>
 
-        <p className="text-sm text-gray-300 mb-4">
-          {movie.overview || "No description available."}
-        </p>
+          <h2 className="text-2xl font-bold mb-3">{movie.title}</h2>
 
-        <div className="text-sm text-gray-400">
-          ⭐ Rating: {movie.vote_average}
+          <p className="text-sm text-gray-300 mb-4">
+            {movie.overview || "No description available."}
+          </p>
+
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-400">
+              ⭐ {movie.vote_average}
+            </span>
+
+            <button
+              onClick={handleRemoveFromWatchlist}
+              className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-sm font-semibold"
+            >
+              ❌ Remove from Watchlist
+            </button>
+          </div>
         </div>
       </div>
     </div>
