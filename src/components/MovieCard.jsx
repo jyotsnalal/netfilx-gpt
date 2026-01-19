@@ -1,15 +1,26 @@
 import { IMG_CDN_URL } from "../utils/constant";
 
-const MovieCard = ({ posterPath }) => {
-  if (!posterPath) return null;
+const MovieCard = ({ movie, onClick }) => {
+  if (!movie?.poster_path) return null;
 
   return (
-    <div className="w-36 sm:w-52 h-24 sm:h-28 flex-shrink-0 rounded-md overflow-hidden
-                    opacity-0 animate-fadeIn hover:scale-105 transition-transform duration-300">
+    <div
+      onClick={onClick}
+      className="
+        w-36 sm:w-52 
+        aspect-[2/3]
+        flex-shrink-0 
+        rounded-lg 
+        overflow-hidden 
+        cursor-pointer 
+        hover:scale-105 
+        transition-transform
+      "
+    >
       <img
-        src={IMG_CDN_URL + posterPath}
+        src={IMG_CDN_URL + movie.poster_path}
+        alt={movie.title}
         className="w-full h-full object-cover"
-        alt="Movie"
       />
     </div>
   );
