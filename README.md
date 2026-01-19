@@ -70,4 +70,14 @@ features:
     -implemented sign out feature
     -update profile api call
     -fetch movies from tmdb
+    -embeded youtube videdo and make it autoplay and mute
+    -tailwind classes to make main container look nice
+    - built secondary coomponent with movie list and card
+    - tmdb image cdn url
+    - usepopularmovie custom hooks
+    -gt search page
+    -multilingual language for gpt search
+    -integrate gpt api
+    
+
 >>>>>>> 5781ccb (validation && redux && auth)

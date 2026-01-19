@@ -11,8 +11,12 @@ import useDocumentaries from "../hooks/useDocumentaries";
 import Header from "./Header";
 import MainContainer from "./MainContainer";
 import SecondaryContainer from "./SecondaryContainer";
+import GptSearch from "./GptSearch";
+import { useSelector } from "react-redux";
 
 const Browse = () => {
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+
   useNowPlayingMovies();
   useUpcomingMovies();
   useTrendingMovies();
@@ -26,8 +30,15 @@ const Browse = () => {
   return (
     <div className="w-screen bg-black">
       <Header />
-      <MainContainer />
-      <SecondaryContainer />
+
+      {showGptSearch ? (
+        <GptSearch />
+      ) : (
+        <>
+          <MainContainer />
+          <SecondaryContainer />
+        </>
+      )}
     </div>
   );
 };

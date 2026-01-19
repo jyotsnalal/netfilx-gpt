@@ -1,6 +1,5 @@
-import React, { useState, useRef } from "react";
+
 import Header from "./Header";
-import { checkValidData } from "../utils/validate";
 import { auth } from "../utils/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -10,54 +9,76 @@ import {
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { USER_AVATAR } from "../utils/constant";
+import { useNavigate } from "react-router-dom";
+import { BG_Netflix } from "../utils/constant";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     const emailValue = email.current.value.trim();
     const passwordValue = password.current.value.trim();
 
-    const message = checkValidData(emailValue, passwordValue);
-    setErrorMessage(message);
-    if (message) return;
+    if (!emailValue || !passwordValue) {
+      setErrorMessage("Email and Password are required");
+      return;
+    }
 
-    if (!isSignInForm) {
-      // SIGN UP
-      createUserWithEmailAndPassword(auth, emailValue, passwordValue)
-        .then(({ user }) => {
-          return updateProfile(user, {
-            displayName: name.current.value,
-            photoURL: USER_AVATAR,
-          });
-        })
-        .then(() => {
-          const { uid, email, displayName, photoURL } = auth.currentUser;
-          dispatch(addUser({ uid, email, displayName, photoURL }));
-        })
-        .catch((error) => {});
-    } else {
-      // SIGN IN
-      signInWithEmailAndPassword(auth, emailValue, passwordValue)
-        .then(({ user }) => {
-          const { uid, email, displayName, photoURL } = user;
-          dispatch(addUser({ uid, email, displayName, photoURL }));
-        })
-        .catch((error) => {
-          setErrorMessage(error.message);
+    try {
+      if (isSignInForm) {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          emailValue,
+          passwordValue
+        );
+
+        const { uid, email, displayName, photoURL } = userCredential.user;
+        dispatch(addUser({ uid, email, displayName, photoURL }));
+
+       
+        navigate("/browse");
+      } else {
+        if (!name.current.value.trim()) {
+          setErrorMessage("Name is required");
+          return;
+        }
+
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          emailValue,
+          passwordValue
+        );
+
+        await updateProfile(userCredential.user, {
+          displayName: name.current.value.trim(),
+          photoURL: USER_AVATAR,
         });
+
+        const { uid, email, displayName, photoURL } = userCredential.user;
+        dispatch(addUser({ uid, email, displayName, photoURL }));
+
+    
+        navigate("/browse");
+      }
+
+      setErrorMessage("");
+    } catch (error) {
+      console.log("FIREBASE ERROR:", error.code, error.message);
+      setErrorMessage(error.code);
     }
   };
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
+    setErrorMessage("");
   };
 
   return (
@@ -67,14 +88,14 @@ const Login = () => {
       <div className="absolute w-full h-screen -z-10">
         <img
           className="w-full h-full object-cover"
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/258d0f77-2241-4282-b613-8354a7675d1a/web/IN-en-20250721-TRIFECTA-perspective_cadc8408-df6e-4313-a05d-daa9dcac139f_large.jpg"
+          src={BG_Netflix}
           alt="background"
         />
       </div>
 
       <div className="flex justify-center items-center h-screen">
         <form
-          className="w-80 sm:w-96 p-8 bg-black text-white rounded-lg opacity-80 min-h-[420px] flex flex-col"
+          className="w-80 sm:w-96 p-8 bg-black text-white rounded-lg opacity-90 min-h-[420px] flex flex-col"
           onSubmit={(e) => e.preventDefault()}
         >
           <h1 className="font-bold text-2xl py-4">
@@ -87,14 +108,16 @@ const Login = () => {
               placeholder="Full Name"
               className="p-3 my-3 w-full bg-gray-700 rounded"
               ref={name}
+              autoComplete="name"
             />
           )}
 
           <input
-            type="text"
+            type="email"
             placeholder="Email address"
             className="p-3 my-3 w-full bg-gray-700 rounded"
             ref={email}
+            autoComplete="username"
           />
 
           <input
@@ -102,19 +125,25 @@ const Login = () => {
             placeholder="Password"
             className="p-3 my-3 w-full bg-gray-700 rounded"
             ref={password}
+            autoComplete={isSignInForm ? "current-password" : "new-password"}
           />
 
-          <p className="text-red-500 font-bold text-sm py-2">{errorMessage}</p>
+          {errorMessage && (
+            <p className="text-red-500 font-semibold text-sm py-2">
+              {errorMessage}
+            </p>
+          )}
 
           <button
-            className="p-3 my-5 bg-red-700 w-full rounded-lg"
+            type="button"
+            className="p-3 my-5 bg-red-700 hover:bg-red-800 transition w-full rounded-lg font-semibold"
             onClick={handleButtonClick}
           >
             {isSignInForm ? "Sign In" : "Sign Up"}
           </button>
 
           <p
-            className="py-2 text-sm cursor-pointer mt-auto"
+            className="py-2 text-sm cursor-pointer text-gray-300 hover:underline mt-auto"
             onClick={toggleSignInForm}
           >
             {isSignInForm
