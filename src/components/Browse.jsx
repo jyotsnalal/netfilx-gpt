@@ -1,3 +1,10 @@
+import { useSelector } from "react-redux";
+
+import Header from "./Header";
+import MainContainer from "./MainContainer";
+import SecondaryContainer from "./SecondaryContainer";
+import GptSearch from "./GptSearch";
+
 import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 import useUpcomingMovies from "../hooks/useUpcomingMovies";
 import useTrendingMovies from "../hooks/useTrendingMovies";
@@ -8,14 +15,10 @@ import useHorrorMovies from "../hooks/useHorrorMovies";
 import useRomanceMovies from "../hooks/useRomanceMovies";
 import useDocumentaries from "../hooks/useDocumentaries";
 
-import Header from "./Header";
-import MainContainer from "./MainContainer";
-import SecondaryContainer from "./SecondaryContainer";
-import GptSearch from "./GptSearch";
-import { useSelector } from "react-redux";
-
 const Browse = () => {
-  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  const showGptSearch = useSelector(
+    (store) => store.gpt.showGptSearch
+  );
 
   useNowPlayingMovies();
   useUpcomingMovies();
@@ -28,7 +31,7 @@ const Browse = () => {
   useDocumentaries();
 
   return (
-    <div className="w-screen bg-black">
+    <div className="w-full bg-black min-h-screen">
       <Header />
 
       {showGptSearch ? (

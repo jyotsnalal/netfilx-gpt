@@ -1,26 +1,14 @@
+import { Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Browse from "./Browse";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const Body = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/browse" element={<Browse />} />
+    </Routes>
+  );
+};
 
-  const appRouter = createBrowserRouter([
-    {
-      path: "/",
-      element: <Login />,
-    },
-    {
-      path: "/browse",
-      element: <Browse />,
-    },
-  ]);
-
- 
-
- return (
- <div className="w-screen min-h-screen overflow-x-hidden">
-    <RouterProvider router={appRouter} />
-  </div>
- )
-}
 export default Body;

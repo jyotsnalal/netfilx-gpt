@@ -1,11 +1,12 @@
-
 import Header from "./Header";
+import { useState, useRef } from "react";
 import { auth } from "../utils/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { USER_AVATAR } from "../utils/constant";
@@ -37,13 +38,12 @@ const Login = () => {
         const userCredential = await signInWithEmailAndPassword(
           auth,
           emailValue,
-          passwordValue
+          passwordValue,
         );
 
         const { uid, email, displayName, photoURL } = userCredential.user;
         dispatch(addUser({ uid, email, displayName, photoURL }));
 
-       
         navigate("/browse");
       } else {
         if (!name.current.value.trim()) {
@@ -54,7 +54,7 @@ const Login = () => {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           emailValue,
-          passwordValue
+          passwordValue,
         );
 
         await updateProfile(userCredential.user, {
@@ -65,7 +65,6 @@ const Login = () => {
         const { uid, email, displayName, photoURL } = userCredential.user;
         dispatch(addUser({ uid, email, displayName, photoURL }));
 
-    
         navigate("/browse");
       }
 

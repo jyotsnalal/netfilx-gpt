@@ -1,7 +1,6 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import VideoTitle from "./VideoTitle";
 import VideoBackground from "./VideoBackground";
+import VideoTitle from "./VideoTitle";
 
 const MainContainer = () => {
   const movies = useSelector((store) => store.movies.nowPlayingMovies);
@@ -11,16 +10,14 @@ const MainContainer = () => {
   const movie = movies[0];
 
   return (
-    <div className="relative w-screen h-[100vh] overflow-hidden">
-
+    <div className="relative h-[90vh] w-full overflow-hidden">
       <VideoBackground movieId={movie.id} />
 
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent" />
 
-      <div className="absolute left-12 top-[34%] max-w-xl z-20">
-        <VideoTitle title={movie.original_title} overview={movie.overview} />
+      <div className="absolute left-6 sm:left-12 top-[35%] z-10 max-w-xl">
+        <VideoTitle title={movie.title} overview={movie.overview} />
       </div>
-
     </div>
   );
 };
