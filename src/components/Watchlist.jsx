@@ -1,4 +1,11 @@
-import { collection, query, where, onSnapshot, doc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -16,35 +23,51 @@ const Watchlist = () => {
       where("uid", "==", user.uid)
     );
 
-    const unsub = onSnapshot(q, (snapshot) => {
-      setMovies(snapshot.docs.map((doc) => doc.data().movie));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list = snapshot.docs.map((docSnap) => ({
+        docId: docSnap.id,
+        ...docSnap.data(),
+      }));
+      setMovies(list);
     });
 
-    return () => unsub();
+    return () => unsubscribe();
   }, [user]);
 
-  const removeMovie = async (movieId) => {
-    await deleteDoc(doc(db, "watchlists", `${user.uid}_${movieId}`));
+  const removeMovie = async (docId) => {
+    try {
+      await deleteDoc(doc(db, "watchlists", docId));
+    } catch (err) {
+      console.error("Failed to remove from watchlist", err);
+    }
   };
 
   return (
-    <div className="pt-24 px-6 text-white">
-      <h1 className="text-2xl font-bold mb-6">My Watchlist</h1>
+    <div className="min-h-screen bg-black text-white pt-24 sm:pt-28 px-6">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6">
+        My Watchlist
+      </h1>
 
       {movies.length === 0 && (
-        <p className="text-gray-400">No movies in watchlist.</p>
+        <p className="text-gray-400">
+          No movies in your watchlist.
+        </p>
       )}
 
       <div className="flex flex-wrap gap-6">
-        {movies.map((movie) => (
-          <div key={movie.id} className="relative">
-            <MovieCard movie={movie} />
+        {movies.map((item) => (
+          <div key={item.docId} className="relative">
+            <MovieCard movie={item.movie} />
 
             <button
-              onClick={() => removeMovie(movie.id)}
-              className="absolute top-2 right-2 bg-black/70 text-white px-2 py-1 text-xs rounded"
+              onClick={() => removeMovie(item.docId)}
+              className="
+                absolute top-2 right-2 
+                bg-black/70 hover:bg-red-600 
+                text-white text-xs px-2 py-1 rounded
+              "
             >
-              ❌
+              Remove
             </button>
           </div>
         ))}

@@ -76,8 +76,22 @@ features:
     - tmdb image cdn url
     - usepopularmovie custom hooks
     -gt search page
-    -multilingual language for gpt search
     -integrate gpt api
-    
+    -gpt inspired movie recommendation UI
+    -langage aware search
+    -fallback recommendation system using tmdb search
+    -clean hero background with overlay
+    -auto playing youtube trailer background
+    -muted looped full screen
+    -clicable movie card open a details modal which displays background image title rating
+    -watchlist(firestore)
+    -add and remove movie to watchlist
+    -persist watchlist using firebase firestore
+    -user specific watchlist, real time updates with firestore onSnapshot
+    -dedicated separate watchlist route with responsive grid layout which can remove movies directly from watchlist
+    -genre analytics dashboard
+    -uses watchlist data for insights 
+    -pie chart and bar chart using recharts
+
 
 >>>>>>> 5781ccb (validation && redux && auth)

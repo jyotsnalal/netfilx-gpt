@@ -4,11 +4,7 @@ import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
-import {
-  LOGO,
-  SUPPORTED_LANGUAGES,
-  USER_AVATAR,
-} from "../utils/constant";
+import { LOGO, SUPPORTED_LANGUAGES, USER_AVATAR } from "../utils/constant";
 import { toggleGptSearch } from "../utils/gptSlice";
 import { changeLanguage } from "../utils/configSlice";
 
@@ -50,8 +46,6 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 sm:px-8 py-3 bg-gradient-to-b from-black/80 to-transparent">
-      
-      {/* LOGO */}
       <img
         src={LOGO}
         alt="Netflix"
@@ -59,11 +53,8 @@ const Header = () => {
         onClick={() => navigate("/browse")}
       />
 
-      {/* RIGHT SECTION */}
       {user && (
         <div className="flex items-center gap-3 sm:gap-4">
-
-          {/* LANGUAGE SELECT */}
           {showGptSearch && (
             <select
               value={selectedLanguage}
@@ -78,7 +69,6 @@ const Header = () => {
             </select>
           )}
 
-          {/* GPT / HOME */}
           <button
             onClick={handleGptToggle}
             className="px-4 py-1.5 text-sm font-semibold rounded bg-red-600 hover:bg-red-700 transition"
@@ -86,22 +76,26 @@ const Header = () => {
             {showGptSearch ? "Home" : "GPT Search"}
           </button>
 
-          {/* WATCHLIST */}
+          <button
+            onClick={() => navigate("/analytics")}
+            className="px-4 py-1.5 text-sm font-semibold rounded bg-red-600 hover:bg-red-700 transition"
+          >
+            Analytics
+          </button>
+
           <button
             onClick={() => navigate("/watchlist")}
-            className="px-4 py-1.5 text-sm font-semibold rounded bg-gray-700 hover:bg-gray-600 transition"
+            className="px-4 py-1.5 text-sm font-semibold rounded bg-red-600 hover:bg-red-700 transition"
           >
             Watchlist
           </button>
 
-          {/* USER AVATAR */}
           <img
             src={user.photoURL || USER_AVATAR}
             alt="User"
             className="w-9 h-9 rounded"
           />
 
-          {/* SIGN OUT */}
           <button
             onClick={handleSignOut}
             className="text-sm font-semibold text-white hover:underline"

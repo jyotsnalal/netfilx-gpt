@@ -2,6 +2,7 @@ import Login from "./Login";
 import Browse from "./Browse";
 import Watchlist from "./Watchlist";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import GenreAnalytics from "../components/GenreAnalytics";
 
 const appRouter = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ const appRouter = createBrowserRouter([
     path: "/watchlist",
     element: <Watchlist />,
   },
+  { path: "/analytics", element: <GenreAnalytics /> },
 ]);
 
 const Body = () => {

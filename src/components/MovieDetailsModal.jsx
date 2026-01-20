@@ -1,4 +1,4 @@
-import { doc, deleteDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { useSelector } from "react-redux";
 import { IMG_CDN_URL } from "../utils/constant";
@@ -8,17 +8,21 @@ const MovieDetailsModal = ({ movie, onClose }) => {
 
   if (!movie) return null;
 
-  const handleRemoveFromWatchlist = async () => {
+  const handleAddToWatchlist = async () => {
     if (!user) return;
 
     try {
-      await deleteDoc(
-        doc(db, "watchlists", `${user.uid}_${movie.id}`)
+      await setDoc(
+        doc(db, "watchlists", `${user.uid}_${movie.id}`),
+        {
+          uid: user.uid,
+          movie,
+          createdAt: Date.now(),
+        }
       );
-      alert("Removed from Watchlist");
       onClose();
     } catch (err) {
-      console.error("Remove failed", err);
+      console.error("Add to watchlist failed", err);
     }
   };
 
@@ -28,9 +32,17 @@ const MovieDetailsModal = ({ movie, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="bg-zinc-900 text-white rounded-xl max-w-lg w-full overflow-hidden"
+        className="bg-zinc-900 text-white rounded-xl max-w-lg w-full overflow-hidden relative"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-4 z-10 text-xl font-bold"
+        >
+          ✕
+        </button>
+
         {/* Backdrop Image */}
         {movie.backdrop_path && (
           <img
@@ -40,15 +52,10 @@ const MovieDetailsModal = ({ movie, onClose }) => {
           />
         )}
 
-        <div className="p-5 relative">
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-4 text-xl font-bold"
-          >
-            ✕
-          </button>
-
-          <h2 className="text-2xl font-bold mb-3">{movie.title}</h2>
+        <div className="p-5">
+          <h2 className="text-2xl font-bold mb-3">
+            {movie.title}
+          </h2>
 
           <p className="text-sm text-gray-300 mb-4">
             {movie.overview || "No description available."}
@@ -59,12 +66,14 @@ const MovieDetailsModal = ({ movie, onClose }) => {
               ⭐ {movie.vote_average}
             </span>
 
-            <button
-              onClick={handleRemoveFromWatchlist}
-              className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-sm font-semibold"
-            >
-              ❌ Remove from Watchlist
-            </button>
+            {user && (
+              <button
+                onClick={handleAddToWatchlist}
+                className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm font-semibold"
+              >
+                 Add to Watchlist
+              </button>
+            )}
           </div>
         </div>
       </div>
